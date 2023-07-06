@@ -20,3 +20,10 @@ async function getImages() {
   const images = response.data;
   console.log(images);
 }
+
+formElement.addEventListener('submit', onSubmit);
+
+function onSubmit(event) {
+  event.preventDefault();
+  getImages();
+}
