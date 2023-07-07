@@ -2,12 +2,16 @@
   background-color: $whiteColor;
   height: 40px;
   padding: 10px;
-  border-radius: $borderRadius;
+  border-radius: $borderRadiusM;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 30px;
+
+  &:hover .form__button:hover {
+    color: $primaryColor;
+  }
 }
 
 .form {
@@ -26,9 +30,13 @@
 
   &__button {
     background-color: transparent;
-    color: $bgColor;
+    color: $navColor;
     position: relative;
     display: block;
+
+    .search-form:hover & {
+      color: $primaryColor;
+    }
 
     &:hover {
       color: $primaryColor;
