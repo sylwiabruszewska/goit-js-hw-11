@@ -5,22 +5,35 @@ const API_KEY = '38106260-22c65560723f63c5e0affa5f7';
 
 const formElement = document.querySelector('.search-form');
 const inputElement = document.querySelector('.form__input');
-const buttonElement = document.querySelector('.form__button');
 const galleryElement = document.querySelector('.gallery');
+const loadMoreButton = document.querySelector('.load-more');
+
+let searchQuery;
+let page = 1;
+let limit = 40;
+let totalPages = Math.ceil(500 / limit);
+let totalHits;
 
 async function getImages() {
   const searchParams = new URLSearchParams({
     key: API_KEY,
-    q: encodeURIComponent(inputElement.value),
+    q: encodeURIComponent(searchQuery),
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
+    page: page,
+    per_page: limit,
   });
   const url = `https://pixabay.com/api/?${searchParams}`;
   const response = await axios.get(url);
+  totalHits = response.data.totalHits;
   console.log(response.data.hits);
-  showNotification(response.data.total);
   return response.data.hits;
+}
+
+async function addImages() {
+  const images = await getImages();
+  renderImages(images);
 }
 
 function showNotification(totalHits) {
@@ -39,10 +52,33 @@ formElement.addEventListener('submit', onSubmit);
 
 async function onSubmit(event) {
   event.preventDefault();
-  let images = await getImages();
-  renderImages(images);
+  galleryElement.innerHTML = '';
+
+  page = 1;
+  searchQuery = inputElement.value;
+  await addImages();
+  showNotification(totalHits);
   inputElement.value = '';
+
+  if (page < totalPages) {
+    loadMoreButton.classList.remove('hidden');
+  } else {
+    loadMoreButton.classList.add('hidden');
+  }
 }
+
+async function loadMoreImages() {
+  page += 1;
+  if (page > totalPages) {
+    Notiflix.Notify.info(
+      "We're sorry, but you've reached the end of search results."
+    );
+    return;
+  }
+  addImages();
+}
+
+loadMoreButton.addEventListener('click', loadMoreImages);
 
 function renderImages(images) {
   const markup = images
@@ -75,5 +111,5 @@ function renderImages(images) {
         </div>`
     )
     .join('');
-  galleryElement.innerHTML = markup;
+  galleryElement.insertAdjacentHTML('beforeend', markup);
 }
