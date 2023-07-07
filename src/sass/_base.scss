@@ -10,8 +10,8 @@ $fontBold: 'Comfortaa', cursive;
 $navColor: #393939;
 $whiteColor: #fff;
 $lightGray: #d5d5d5;
-$primaryColor: #d554d3;
-$hoverColor: #923c90;
+$primaryColor: #9f3f9d;
+$hoverColor: #6b2a6a;
 
 $borderRadiusM: 20px;
 $borderRadiusS: 10px;
@@ -32,7 +32,7 @@ p {
 
 // NAV
 .nav {
-  background-color: $navColor;
+  background-color: $primaryColor;
   height: 80px;
   display: flex;
   align-items: center;
@@ -46,12 +46,23 @@ p {
   &__title {
     font-family: $fontBold;
     color: $whiteColor;
-    font-size: 36px;
+    font-size: 30px;
   }
 
   &__flex {
     display: flex;
+    align-items: center;
     gap: 50px;
+  }
+}
+
+.nav-scroll {
+  transition: height $shift;
+  transition: background-color $shift;
+
+  &.scrolled {
+    height: 50px;
+    background-color: $navColor;
   }
 }
 
