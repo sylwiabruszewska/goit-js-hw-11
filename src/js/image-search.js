@@ -1,5 +1,7 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const API_KEY = '38106260-22c65560723f63c5e0affa5f7';
 
@@ -7,6 +9,8 @@ const formElement = document.querySelector('.search-form');
 const inputElement = document.querySelector('.form__input');
 const galleryElement = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more');
+
+const lightbox = new SimpleLightbox('.photo-card a');
 
 let searchQuery;
 let page = 1;
@@ -34,6 +38,7 @@ async function getImages() {
 async function addImages() {
   const images = await getImages();
   renderImages(images);
+  lightbox.refresh();
 }
 
 function showNotification(totalHits) {
@@ -93,7 +98,9 @@ function renderImages(images) {
         downloads,
       }) => `
         <div class="photo-card">
-            <img class="gallery__img" src="${webformatURL}" alt="${tags}" loading="lazy" />
+            <a href="${largeImageURL}">
+                <img class="gallery__img" src="${webformatURL}" alt="${tags}" loading="lazy" />
+            </a>
             <div class="info">
                 <p class="info-item">
                     <b>Likes:</b> ${likes}
