@@ -33,6 +33,8 @@
     color: $navColor;
     position: relative;
     display: block;
+    width: 24px;
+    height: 24px;
 
     .search-form:hover & {
       color: $primaryColor;
@@ -46,8 +48,8 @@
 
 .material-symbols-outlined {
   position: absolute;
-  top: -500%;
-  left: -150%;
+  top: 0;
+  left: 0;
   transition: transform $shift;
   &:hover {
     transform: scale(1.3);
