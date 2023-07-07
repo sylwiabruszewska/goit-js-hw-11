@@ -11,6 +11,7 @@ $navColor: #393939;
 $whiteColor: #fff;
 $lightGray: #d5d5d5;
 $primaryColor: #d554d3;
+$hoverColor: #923c90;
 
 $borderRadiusM: 20px;
 $borderRadiusS: 10px;
@@ -79,5 +80,28 @@ p {
     border-radius: $borderRadiusS;
     padding: 5px;
     font-size: 14px;
+  }
+}
+
+// BTN LOAD-MORE
+.hidden {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.load-more {
+  border-radius: $borderRadiusM;
+  color: $whiteColor;
+  background-color: $primaryColor;
+  padding: 10px;
+  border: 0;
+  margin: 10px auto;
+  transition: background-color $shift;
+  display: block;
+
+  &:hover {
+    background-color: $hoverColor;
   }
 }
