@@ -97,6 +97,11 @@ async function onSubmit(event) {
   await addImages();
   showNotification(totalHits);
   inputElement.value = '';
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
 }
 
 function loadMoreImages() {
