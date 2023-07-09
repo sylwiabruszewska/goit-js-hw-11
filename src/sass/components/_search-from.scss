@@ -6,12 +6,13 @@
 
   @include mq(desktop) {
     height: 40px;
+    gap: 30px;
   }
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
 
   &:hover .form__button:hover {
     color: $primaryColor;
@@ -29,7 +30,7 @@
   }
 
   .search-form:hover &__input::placeholder {
-    color: $primaryColor;
+    color: $activeColor;
   }
 
   &__button {
@@ -41,7 +42,7 @@
     height: 24px;
 
     .search-form:hover & {
-      color: $primaryColor;
+      color: $activeColor;
     }
 
     &:hover {
