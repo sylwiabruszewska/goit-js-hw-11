@@ -37,7 +37,6 @@ async function getImages() {
   totalHits = response.data.totalHits;
   totalPages = Math.ceil(totalHits / limit);
 
-  console.log(response.data.hits);
   return response.data.hits;
 }
 
@@ -48,6 +47,18 @@ async function addImages() {
 
   if (page > 1) {
     smoothScroll();
+  }
+
+  if (page === totalPages) {
+    loadMoreButton.classList.add('hidden');
+    message.classList.remove('hidden');
+    return;
+  }
+
+  if (page < totalPages && totalHits !== 0) {
+    loadMoreButton.classList.remove('hidden');
+  } else {
+    loadMoreButton.classList.add('hidden');
   }
 }
 
@@ -79,29 +90,18 @@ formElement.addEventListener('submit', onSubmit);
 async function onSubmit(event) {
   event.preventDefault();
   galleryElement.innerHTML = '';
+  message.classList.add('hidden');
 
   page = 1;
   searchQuery = inputElement.value;
   await addImages();
   showNotification(totalHits);
   inputElement.value = '';
-
-  if (page < totalPages && totalHits !== 0) {
-    loadMoreButton.classList.remove('hidden');
-  } else {
-    loadMoreButton.classList.add('hidden');
-  }
 }
 
 function loadMoreImages() {
   page += 1;
   addImages();
-
-  if (page === totalPages) {
-    loadMoreButton.classList.add('hidden');
-    message.classList.remove('hidden');
-    return;
-  }
 }
 
 loadMoreButton.addEventListener('click', loadMoreImages);
