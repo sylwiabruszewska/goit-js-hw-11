@@ -70,7 +70,7 @@ async function onSubmit(event) {
   showNotification(totalHits);
   inputElement.value = '';
 
-  if (page < totalPages) {
+  if (page < totalPages && totalHits !== 0) {
     loadMoreButton.classList.remove('hidden');
   } else {
     loadMoreButton.classList.add('hidden');
