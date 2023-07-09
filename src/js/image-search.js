@@ -22,22 +22,27 @@ let totalPages;
 let totalHits;
 
 async function getImages() {
-  const searchParams = new URLSearchParams({
-    key: API_KEY,
-    q: encodeURIComponent(searchQuery),
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: true,
-    page: page,
-    per_page: limit,
-  });
-  const url = `https://pixabay.com/api/?${searchParams}`;
-  const response = await axios.get(url);
+  try {
+    const searchParams = new URLSearchParams({
+      key: API_KEY,
+      q: encodeURIComponent(searchQuery),
+      image_type: 'photo',
+      orientation: 'horizontal',
+      safesearch: true,
+      page: page,
+      per_page: limit,
+    });
+    const url = `https://pixabay.com/api/?${searchParams}`;
+    const response = await axios.get(url);
 
-  totalHits = response.data.totalHits;
-  totalPages = Math.ceil(totalHits / limit);
+    totalHits = response.data.totalHits;
+    totalPages = Math.ceil(totalHits / limit);
 
-  return response.data.hits;
+    return response.data.hits;
+  } catch (error) {
+    console.error('An error occurred while fetching images:', error);
+    throw error;
+  }
 }
 
 async function addImages() {
