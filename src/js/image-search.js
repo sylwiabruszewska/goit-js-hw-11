@@ -2,6 +2,8 @@ import axios from 'axios';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import Masonry from 'masonry-layout';
+import imagesLoaded from 'imagesloaded';
 
 const API_KEY = '38106260-22c65560723f63c5e0affa5f7';
 
@@ -86,37 +88,71 @@ async function loadMoreImages() {
 loadMoreButton.addEventListener('click', loadMoreImages);
 
 function renderImages(images) {
-  const markup = images
-    .map(
-      ({
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => `
-        <div class="photo-card">
-            <a href="${largeImageURL}">
-                <img class="gallery__img" src="${webformatURL}" alt="${tags}" loading="lazy" />
-            </a>
-            <div class="info">
-                <p class="info-item">
-                    <b>Likes:</b> ${likes}
-                </p>
-                <p class="info-item">
-                    <b>Views:</b> ${views}
-                </p>
-                <p class="info-item">
-                    <b>Comments:</b> ${comments}
-                </p>
-                <p class="info-item">
-                    <b>Downloads:</b> ${downloads}
-                </p>
-            </div>
-        </div>`
-    )
-    .join('');
-  galleryElement.insertAdjacentHTML('beforeend', markup);
+  images.forEach(
+    ({
+      webformatURL,
+      largeImageURL,
+      tags,
+      likes,
+      views,
+      comments,
+      downloads,
+      webformatWidth,
+      webformatHeight,
+    }) => {
+      const cardMarkup = `
+              <a href="${largeImageURL}">
+                  <img class="gallery__img" src="${webformatURL}" alt="${tags}" width="${webformatWidth}" height="${webformatHeight}" loading="lazy" />
+              </a>
+              <div class="info">
+                  <p class="info-item">
+                      <b><span class="material-symbols-outlined icon-card">
+                      favorite
+                      </span></b>
+                      <span>${likes}</span>
+                  </p>
+                  <p class="info-item">
+                      <b><span class="material-symbols-outlined icon-card">
+                      visibility
+                      </span></b> 
+                      <span>${views}</span>
+                  </p>
+                  <p class="info-item">
+                      <b><span class="material-symbols-outlined icon-card">
+                      comment
+                      </span></b>
+                      <span>${comments}</span>
+                  </p>
+                  <p class="info-item">
+                      <b><span class="material-symbols-outlined icon-card">
+                      download
+                      </span></b>
+                      <span>${downloads}</span>
+                  </p>
+              </div>`;
+
+      const element = document.createElement('div');
+      element.classList.add('photo-card');
+      element.classList.add('is-loading');
+
+      element.innerHTML = cardMarkup;
+      galleryElement.appendChild(element);
+
+      const img = element.querySelector('.gallery__img');
+      imagesLoaded(img, function (instance) {
+        element.classList.remove('is-loading');
+        masonry.layout();
+      });
+    }
+  );
+
+  imagesLoaded('.gallery', () => {
+    masonry.layout();
+  });
+
+  const masonry = new Masonry('.gallery', {
+    itemSelector: '.photo-card',
+    columnWidth: 390,
+    gutter: 15,
+  });
 }
