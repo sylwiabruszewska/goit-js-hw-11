@@ -17,7 +17,7 @@ const lightbox = new SimpleLightbox('.photo-card a');
 let searchQuery;
 let page = 1;
 let limit = 40;
-let totalPages = Math.ceil(500 / limit);
+let totalPages;
 let totalHits;
 
 async function getImages() {
@@ -32,7 +32,10 @@ async function getImages() {
   });
   const url = `https://pixabay.com/api/?${searchParams}`;
   const response = await axios.get(url);
+
   totalHits = response.data.totalHits;
+  totalPages = Math.ceil(totalHits / limit);
+
   console.log(response.data.hits);
   return response.data.hits;
 }
