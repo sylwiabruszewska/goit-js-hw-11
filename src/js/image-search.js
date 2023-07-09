@@ -171,7 +171,7 @@ function renderImages(images) {
 
   const masonry = new Masonry('.gallery', {
     itemSelector: '.photo-card',
-    columnWidth: 390,
+    // columnWidth: 390,
     gutter: 15,
   });
 }
