@@ -27,8 +27,18 @@
 
   &__flex {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 50px;
+    justify-content: flex-start;
+    gap: 10px;
+
+    @include mq(tablet) {
+      gap: 30px;
+    }
+
+    @include mq(desktop) {
+      gap: 50px;
+    }
   }
 }
 
