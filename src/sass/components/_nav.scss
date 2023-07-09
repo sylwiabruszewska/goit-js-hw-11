@@ -1,0 +1,35 @@
+// NAV
+.nav {
+  background-color: $primaryColor;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: $boxShadow;
+
+  &__title {
+    font-family: $fontBold;
+    color: $whiteColor;
+    font-size: 26px;
+  }
+
+  &__flex {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+  }
+}
+
+.nav-scroll {
+  transition: height $shift;
+  transition: background-color $shift;
+
+  &.scrolled {
+    height: 50px;
+    background-color: $navColor;
+  }
+}
