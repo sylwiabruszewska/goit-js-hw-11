@@ -23,6 +23,10 @@
     @include mq(desktop) {
       font-size: 26px;
     }
+
+    .nav.scrolled & {
+      display: none;
+    }
   }
 
   &__flex {
