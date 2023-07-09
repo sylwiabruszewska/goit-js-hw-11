@@ -1,11 +1,4 @@
 // BTN LOAD-MORE
-.hidden {
-  position: absolute;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-}
-
 .load-more {
   border-radius: $borderRadiusM;
   color: $whiteColor;

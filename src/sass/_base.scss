@@ -12,3 +12,9 @@ p {
   width: 1200px;
   margin: auto;
 }
+
+.hidden {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
