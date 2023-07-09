@@ -67,8 +67,16 @@ function smoothScroll() {
     .querySelector('.gallery')
     .firstElementChild.getBoundingClientRect();
 
+  let scrollAmount;
+
+  if (window.innerWidth < 768) {
+    scrollAmount = cardHeight * 1;
+  } else {
+    scrollAmount = cardHeight * 2;
+  }
+
   window.scrollBy({
-    top: cardHeight * 2,
+    top: scrollAmount,
     behavior: 'smooth',
   });
 }
