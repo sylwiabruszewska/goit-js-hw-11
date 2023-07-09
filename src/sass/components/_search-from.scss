@@ -28,6 +28,9 @@
   &__input {
     outline: none;
   }
+  &__input::placeholder {
+    color: $lightGray;
+  }
 
   .search-form:hover &__input::placeholder {
     color: $activeColor;
@@ -35,7 +38,7 @@
 
   &__button {
     background-color: transparent;
-    color: $navColor;
+    color: $lightGray;
     position: relative;
     display: block;
     width: 24px;
