@@ -71,7 +71,8 @@
 
 // }
 
-p.end-message {
-  color: red;
-  font-weight: bold;
+p.message {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }

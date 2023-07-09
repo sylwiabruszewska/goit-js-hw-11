@@ -11,6 +11,7 @@ const formElement = document.querySelector('.search-form');
 const inputElement = document.querySelector('.form__input');
 const galleryElement = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more');
+const message = document.querySelector('.message');
 
 const lightbox = new SimpleLightbox('.photo-card a');
 
@@ -77,15 +78,15 @@ async function onSubmit(event) {
   }
 }
 
-async function loadMoreImages() {
+function loadMoreImages() {
   page += 1;
-  if (page > totalPages) {
-    Notiflix.Notify.info(
-      "We're sorry, but you've reached the end of search results."
-    );
+  addImages();
+
+  if (page === totalPages) {
+    loadMoreButton.classList.add('hidden');
+    message.classList.remove('hidden');
     return;
   }
-  addImages();
 }
 
 loadMoreButton.addEventListener('click', loadMoreImages);
