@@ -10,26 +10,44 @@
 }
 
 .photo-card {
-  width: calc((100% - 2 * 15px) / 3);
+  width: 100%;
   box-shadow: $boxShadow;
-  position: relative;
-  overflow: hidden;
+
+  margin: 0 auto;
   margin-bottom: 15px;
+
+  @include mq(tablet) {
+    width: calc((100% - 2 * 10px) / 2);
+  }
+
+  @include mq(desktop) {
+    width: calc((100% - 2 * 15px) / 3);
+    position: relative;
+    overflow: hidden;
+  }
 }
 
 .info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  padding: 5px;
-  opacity: 0;
-  transition: opacity 0.3s;
   display: flex;
   justify-content: center;
   gap: 10px;
+  padding: 5px;
+
+  @include mq(desktop) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    .photo-card:hover & {
+      opacity: 1;
+      z-index: 1;
+    }
+  }
 
   &-item {
     display: flex;
@@ -37,11 +55,6 @@
     align-items: center;
     padding: 5px;
     font-size: 14px;
-  }
-
-  .photo-card:hover & {
-    opacity: 1;
-    z-index: 1;
   }
 }
 

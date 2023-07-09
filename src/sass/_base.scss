@@ -10,15 +10,7 @@ p {
 // SECTION
 .section {
   margin: auto;
-  width: 400px;
-
-  @include mq(tablet) {
-    width: 700px;
-  }
-
-  @include mq(desktop) {
-    width: 1200px;
-  }
+  width: 90%;
 }
 
 .hidden {
