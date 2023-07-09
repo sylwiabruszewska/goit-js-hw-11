@@ -1,8 +1,12 @@
 .search-form {
   background-color: $whiteColor;
-  height: 40px;
+  height: 30px;
   padding: 10px;
   border-radius: $borderRadiusM;
+
+  @include mq(desktop) {
+    height: 40px;
+  }
 
   display: flex;
   justify-content: space-between;
