@@ -45,6 +45,21 @@ async function addImages() {
   const images = await getImages();
   renderImages(images);
   lightbox.refresh();
+
+  if (page > 1) {
+    smoothScroll();
+  }
+}
+
+function smoothScroll() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }
 
 function showNotification(totalHits) {
