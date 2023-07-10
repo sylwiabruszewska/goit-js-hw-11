@@ -50,10 +50,6 @@ async function getImages() {
 
 async function addImages() {
   try {
-    if (page !== 1) {
-      loader.classList.remove('hidden');
-    }
-
     const images = await getImages();
     renderImages(images);
     lightbox.refresh();
@@ -75,8 +71,6 @@ async function addImages() {
     // }
   } catch (error) {
     console.error('An error occurred while adding images:', error);
-  } finally {
-    loader.classList.add('hidden');
   }
 }
 
@@ -130,14 +124,16 @@ async function onSubmit(event) {
   });
 }
 
-function loadMoreImages() {
+async function loadMoreImages() {
   const scrollPosition = window.scrollY;
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
 
   if (scrollPosition + windowHeight >= documentHeight) {
+    loader.classList.remove('hidden');
     page += 1;
-    addImages();
+    await addImages();
+    loader.classList.add('hidden');
   }
 }
 
