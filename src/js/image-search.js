@@ -4,6 +4,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import Masonry from 'masonry-layout';
 import imagesLoaded from 'imagesloaded';
+import { throttle } from 'throttle-debounce';
 
 const API_KEY = '38106260-22c65560723f63c5e0affa5f7';
 
@@ -12,6 +13,7 @@ const inputElement = document.querySelector('.form__input');
 const galleryElement = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more');
 const message = document.querySelector('.message');
+const loader = document.querySelector('.loader');
 
 const lightbox = new SimpleLightbox('.photo-card a');
 
@@ -48,6 +50,10 @@ async function getImages() {
 
 async function addImages() {
   try {
+    if (page !== 1) {
+      loader.classList.remove('hidden');
+    }
+
     const images = await getImages();
     renderImages(images);
     lightbox.refresh();
@@ -57,18 +63,20 @@ async function addImages() {
     }
 
     if (page === totalPages) {
-      loadMoreButton.classList.add('hidden');
+      //   loadMoreButton.classList.add('hidden');
       message.classList.remove('hidden');
       return;
     }
 
-    if (page < totalPages && totalHits !== 0) {
-      loadMoreButton.classList.remove('hidden');
-    } else {
-      loadMoreButton.classList.add('hidden');
-    }
+    // if (page < totalPages && totalHits !== 0) {
+    //   loadMoreButton.classList.remove('hidden');
+    // } else {
+    //   loadMoreButton.classList.add('hidden');
+    // }
   } catch (error) {
     console.error('An error occurred while adding images:', error);
+  } finally {
+    loader.classList.add('hidden');
   }
 }
 
@@ -82,7 +90,7 @@ function smoothScroll() {
   if (window.innerWidth < 768) {
     scrollAmount = cardHeight * 1;
   } else {
-    scrollAmount = cardHeight * 2;
+    scrollAmount = cardHeight * 1.5;
   }
 
   window.scrollBy({
@@ -123,11 +131,17 @@ async function onSubmit(event) {
 }
 
 function loadMoreImages() {
-  page += 1;
-  addImages();
+  const scrollPosition = window.scrollY;
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+
+  if (scrollPosition + windowHeight >= documentHeight) {
+    page += 1;
+    addImages();
+  }
 }
 
-loadMoreButton.addEventListener('click', loadMoreImages);
+// loadMoreButton.addEventListener('click', loadMoreImages);
 
 function renderImages(images) {
   images.forEach(
@@ -190,3 +204,5 @@ function renderImages(images) {
     gutter: 15,
   });
 }
+
+window.addEventListener('scroll', throttle(300, loadMoreImages));
