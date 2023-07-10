@@ -25,14 +25,15 @@ async function getImages() {
   try {
     const searchParams = new URLSearchParams({
       key: API_KEY,
-      q: encodeURIComponent(searchQuery),
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
       page: page,
       per_page: limit,
     });
-    const url = `https://pixabay.com/api/?${searchParams}`;
+    const url = `https://pixabay.com/api/?${searchParams}&q=${encodeURIComponent(
+      searchQuery
+    )}`;
     const response = await axios.get(url);
 
     totalHits = response.data.totalHits;
@@ -143,27 +144,19 @@ function renderImages(images) {
               </a>
               <div class="info">
                   <p class="info-item">
-                      <b><span class="material-symbols-outlined icon-card">
-                      favorite
-                      </span></b>
+                  <i class="fa-regular fa-heart"></i>
                       <span>${likes}</span>
                   </p>
                   <p class="info-item">
-                      <b><span class="material-symbols-outlined icon-card">
-                      visibility
-                      </span></b> 
+                  <i class="fa-regular fa-eye"></i>
                       <span>${views}</span>
                   </p>
                   <p class="info-item">
-                      <b><span class="material-symbols-outlined icon-card">
-                      comment
-                      </span></b>
+                  <i class="fa-regular fa-comment"></i>
                       <span>${comments}</span>
                   </p>
                   <p class="info-item">
-                      <b><span class="material-symbols-outlined icon-card">
-                      download
-                      </span></b>
+                  <i class="fa-regular fa-circle-down"></i>
                       <span>${downloads}</span>
                   </p>
               </div>`;
