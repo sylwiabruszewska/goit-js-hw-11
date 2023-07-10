@@ -23,6 +23,8 @@ let limit = 40;
 let totalPages;
 let totalHits;
 
+let isLoading;
+
 async function getImages() {
   try {
     const searchParams = new URLSearchParams({
@@ -48,21 +50,27 @@ async function getImages() {
   }
 }
 
+function checkRemainingPages() {
+  if (page === totalPages) {
+    return false;
+  }
+  return true;
+}
+
 async function addImages() {
   try {
     const images = await getImages();
     renderImages(images);
     lightbox.refresh();
 
-    if (page > 1) {
-      smoothScroll();
-    }
+    // if (page === totalPages) {
+    //   //   loadMoreButton.classList.add('hidden');
+    //   message.classList.remove('hidden');
+    //   return;
+    // }
 
-    if (page === totalPages) {
-      //   loadMoreButton.classList.add('hidden');
-      message.classList.remove('hidden');
-      return;
-    }
+    loader.classList.add('hidden');
+    isLoading = false;
 
     // if (page < totalPages && totalHits !== 0) {
     //   loadMoreButton.classList.remove('hidden');
@@ -112,6 +120,11 @@ async function onSubmit(event) {
   galleryElement.innerHTML = '';
   message.classList.add('hidden');
 
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+
   page = 1;
   searchQuery = inputElement.value;
   await addImages();
@@ -125,15 +138,29 @@ async function onSubmit(event) {
 }
 
 async function loadMoreImages() {
+  isLoading = true;
+
+  if (checkRemainingPages() & isLoading) {
+    loader.classList.remove('hidden');
+  }
+
   const scrollPosition = window.scrollY;
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
 
   if (scrollPosition + windowHeight >= documentHeight) {
-    loader.classList.remove('hidden');
+    // loader.classList.remove('hidden');
     page += 1;
     await addImages();
+    smoothScroll();
+    // loader.classList.add('hidden');
+  }
+
+  if (page === totalPages) {
+    //   loadMoreButton.classList.add('hidden');
     loader.classList.add('hidden');
+    message.classList.remove('hidden');
+    return;
   }
 }
 
