@@ -19,7 +19,7 @@
   }
 
   &:hover .icon-search {
-    transform: scale(1.15);
+    transform: scale(1.3);
   }
 
   &:focus-within {
@@ -68,7 +68,6 @@
 .icon-search {
   transition: transform $shift;
   &:hover {
-    transform: scale(1.3);
     color: $blackColor;
   }
 }
