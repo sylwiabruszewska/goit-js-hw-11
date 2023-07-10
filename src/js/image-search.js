@@ -47,24 +47,28 @@ async function getImages() {
 }
 
 async function addImages() {
-  const images = await getImages();
-  renderImages(images);
-  lightbox.refresh();
+  try {
+    const images = await getImages();
+    renderImages(images);
+    lightbox.refresh();
 
-  if (page > 1) {
-    smoothScroll();
-  }
+    if (page > 1) {
+      smoothScroll();
+    }
 
-  if (page === totalPages) {
-    loadMoreButton.classList.add('hidden');
-    message.classList.remove('hidden');
-    return;
-  }
+    if (page === totalPages) {
+      loadMoreButton.classList.add('hidden');
+      message.classList.remove('hidden');
+      return;
+    }
 
-  if (page < totalPages && totalHits !== 0) {
-    loadMoreButton.classList.remove('hidden');
-  } else {
-    loadMoreButton.classList.add('hidden');
+    if (page < totalPages && totalHits !== 0) {
+      loadMoreButton.classList.remove('hidden');
+    } else {
+      loadMoreButton.classList.add('hidden');
+    }
+  } catch (error) {
+    console.error('An error occurred while adding images:', error);
   }
 }
 
