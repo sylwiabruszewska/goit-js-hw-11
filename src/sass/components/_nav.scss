@@ -1,6 +1,6 @@
 // NAV
 .nav {
-  background-color: $primaryColor;
+  background-color: $whiteColor;
   height: 80px;
   display: flex;
   align-items: center;
@@ -10,10 +10,11 @@
   right: 0;
   z-index: 100;
   box-shadow: $boxShadow;
+  border-bottom: 1px solid $lightGray;
 
   &__title {
     font-family: $fontBold;
-    color: $whiteColor;
+    color: $blackColor;
     font-size: 16px;
 
     @include mq(tablet) {
@@ -48,10 +49,8 @@
 
 .nav-scroll {
   transition: height $shift;
-  transition: background-color $shift;
 
   &.scrolled {
     height: 50px;
-    background-color: $navColor;
   }
 }

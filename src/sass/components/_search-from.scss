@@ -1,8 +1,8 @@
 .search-form {
   background-color: $whiteColor;
-  height: 30px;
-  padding: 10px;
+  border: 1px solid $lightGray;
   border-radius: $borderRadiusM;
+  padding: 5px;
 
   @include mq(desktop) {
     height: 40px;
@@ -17,16 +17,28 @@
   &:hover .form__button:hover {
     color: $primaryColor;
   }
+
+  &:hover .icon-search {
+    transform: scale(1.15);
+  }
+
+  &:focus-within {
+    border-color: $blackColor;
+  }
 }
 
 .form {
   &__input,
   &__button {
     border: 0;
+    padding: 5px 10px;
+    margin: 0;
   }
 
   &__input {
     outline: none;
+    border-top-left-radius: $borderRadiusM;
+    border-bottom-left-radius: $borderRadiusM;
   }
   &__input::placeholder {
     color: $lightGray;
@@ -39,10 +51,9 @@
   &__button {
     background-color: transparent;
     color: $lightGray;
-    position: relative;
-    display: block;
-    width: 24px;
-    height: 24px;
+
+    border-top-right-radius: $borderRadiusM;
+    border-bottom-right-radius: $borderRadiusM;
 
     .search-form:hover & {
       color: $activeColor;
@@ -55,11 +66,19 @@
 }
 
 .icon-search {
-  position: absolute;
-  top: 0;
-  left: 0;
   transition: transform $shift;
   &:hover {
     transform: scale(1.3);
+    color: $blackColor;
   }
+}
+
+.loader {
+  height: 50px;
+  display: block;
+  margin: 0 auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-image: url('https://raw.githubusercontent.com/n3r4zzurr0/svg-spinners/abfa05c49acf005b8b1e0ef8eb25a67a7057eb20/svg-css/3-dots-fade.svg');
+  background-size: 50px;
 }
