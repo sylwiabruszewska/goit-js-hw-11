@@ -140,16 +140,14 @@ async function onSubmit(event) {
 async function loadMoreImages() {
   isLoading = true;
 
-  if (checkRemainingPages() & isLoading) {
-    loader.classList.remove('hidden');
-  }
-
   const scrollPosition = window.scrollY;
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
 
-  if (scrollPosition + windowHeight >= documentHeight) {
-    // loader.classList.remove('hidden');
+  if (scrollPosition + windowHeight >= documentHeight - 20) {
+    if (checkRemainingPages() & isLoading) {
+      loader.classList.remove('hidden');
+    }
     page += 1;
     await addImages();
     smoothScroll();
@@ -209,8 +207,7 @@ function renderImages(images) {
       element.innerHTML = cardMarkup;
       galleryElement.appendChild(element);
 
-      const img = element.querySelector('.gallery__img');
-      imagesLoaded(img, function (instance) {
+      imagesLoaded('.gallery__img', () => {
         element.classList.remove('is-loading');
         masonry.layout();
       });
