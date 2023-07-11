@@ -228,4 +228,4 @@ function renderImages(images) {
   });
 }
 
-window.addEventListener('scroll', throttle(300, loadMoreImages));
+document.addEventListener('scroll', throttle(300, loadMoreImages));
