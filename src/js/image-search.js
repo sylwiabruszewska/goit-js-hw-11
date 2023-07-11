@@ -140,26 +140,19 @@ async function onSubmit(event) {
 async function loadMoreImages() {
   isLoading = true;
 
-  const scrollPosition = window.scrollY;
-  const windowHeight = window.innerHeight;
-  const documentHeight = document.documentElement.scrollHeight;
-
-  if (scrollPosition + windowHeight >= documentHeight - 20) {
-    if (checkRemainingPages() & isLoading) {
-      loader.classList.remove('hidden');
-    }
-    page += 1;
-    await addImages();
-    smoothScroll();
-    // loader.classList.add('hidden');
+  if (checkRemainingPages() & isLoading) {
+    loader.classList.remove('hidden');
   }
+  page += 1;
+  await addImages();
+  smoothScroll();
+}
 
-  if (page === totalPages) {
-    //   loadMoreButton.classList.add('hidden');
-    loader.classList.add('hidden');
-    message.classList.remove('hidden');
-    return;
-  }
+if (page === totalPages) {
+  //   loadMoreButton.classList.add('hidden');
+  loader.classList.add('hidden');
+  message.classList.remove('hidden');
+  return;
 }
 
 // loadMoreButton.addEventListener('click', loadMoreImages);
@@ -225,4 +218,14 @@ function renderImages(images) {
   });
 }
 
-document.addEventListener('scroll', throttle(300, loadMoreImages));
+document.addEventListener('scroll', throttle(300, checkIfScrolledToBottom()));
+
+function checkIfScrolledToBottom() {
+  let scrollPosition = window.scrollY;
+  let windowHeight = window.innerHeight;
+  let documentHeight = document.documentElement.scrollHeight;
+
+  if (scrollPosition + windowHeight >= documentHeight - 20) {
+    loadMoreImages();
+  }
+}
