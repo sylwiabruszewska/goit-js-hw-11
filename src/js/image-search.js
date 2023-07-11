@@ -11,6 +11,7 @@ const API_KEY = '38106260-22c65560723f63c5e0affa5f7';
 const formElement = document.querySelector('.search-form');
 const inputElement = document.querySelector('.form__input');
 const galleryElement = document.querySelector('.gallery');
+const loadMoreButton = document.querySelector('.load-more');
 const message = document.querySelector('.message');
 const loader = document.querySelector('.loader');
 
@@ -62,8 +63,20 @@ async function addImages() {
     renderImages(images);
     lightbox.refresh();
 
+    // if (page === totalPages) {
+    //   //   loadMoreButton.classList.add('hidden');
+    //   message.classList.remove('hidden');
+    //   return;
+    // }
+
     loader.classList.add('hidden');
     isLoading = false;
+
+    // if (page < totalPages && totalHits !== 0) {
+    //   loadMoreButton.classList.remove('hidden');
+    // } else {
+    //   loadMoreButton.classList.add('hidden');
+    // }
   } catch (error) {
     console.error('An error occurred while adding images:', error);
   }
@@ -127,19 +140,29 @@ async function onSubmit(event) {
 async function loadMoreImages() {
   isLoading = true;
 
-  if (checkRemainingPages() & isLoading) {
-    loader.classList.remove('hidden');
+  const scrollPosition = window.scrollY;
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+
+  if (scrollPosition + windowHeight >= documentHeight - 20) {
+    if (checkRemainingPages() & isLoading) {
+      loader.classList.remove('hidden');
+    }
+    page += 1;
+    await addImages();
+    smoothScroll();
+    // loader.classList.add('hidden');
   }
-  page += 1;
-  await addImages();
-  smoothScroll();
+
+  if (page === totalPages) {
+    //   loadMoreButton.classList.add('hidden');
+    loader.classList.add('hidden');
+    message.classList.remove('hidden');
+    return;
+  }
 }
 
-if (page === totalPages) {
-  loader.classList.add('hidden');
-  message.classList.remove('hidden');
-  return;
-}
+// loadMoreButton.addEventListener('click', loadMoreImages);
 
 function renderImages(images) {
   images.forEach(
@@ -202,14 +225,4 @@ function renderImages(images) {
   });
 }
 
-document.addEventListener('scroll', throttle(300, checkIfScrolledToBottom()));
-
-function checkIfScrolledToBottom() {
-  let scrollPosition = window.scrollY;
-  let windowHeight = window.innerHeight;
-  let documentHeight = document.documentElement.scrollHeight;
-
-  if (scrollPosition + windowHeight >= documentHeight - 20) {
-    loadMoreImages();
-  }
-}
+document.addEventListener('scroll', throttle(300, loadMoreImages));
