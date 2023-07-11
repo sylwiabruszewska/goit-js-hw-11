@@ -11,7 +11,6 @@ const API_KEY = '38106260-22c65560723f63c5e0affa5f7';
 const formElement = document.querySelector('.search-form');
 const inputElement = document.querySelector('.form__input');
 const galleryElement = document.querySelector('.gallery');
-const loadMoreButton = document.querySelector('.load-more');
 const message = document.querySelector('.message');
 const loader = document.querySelector('.loader');
 
@@ -63,20 +62,8 @@ async function addImages() {
     renderImages(images);
     lightbox.refresh();
 
-    // if (page === totalPages) {
-    //   //   loadMoreButton.classList.add('hidden');
-    //   message.classList.remove('hidden');
-    //   return;
-    // }
-
     loader.classList.add('hidden');
     isLoading = false;
-
-    // if (page < totalPages && totalHits !== 0) {
-    //   loadMoreButton.classList.remove('hidden');
-    // } else {
-    //   loadMoreButton.classList.add('hidden');
-    // }
   } catch (error) {
     console.error('An error occurred while adding images:', error);
   }
@@ -149,13 +136,10 @@ async function loadMoreImages() {
 }
 
 if (page === totalPages) {
-  //   loadMoreButton.classList.add('hidden');
   loader.classList.add('hidden');
   message.classList.remove('hidden');
   return;
 }
-
-// loadMoreButton.addEventListener('click', loadMoreImages);
 
 function renderImages(images) {
   images.forEach(
