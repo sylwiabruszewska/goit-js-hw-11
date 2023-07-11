@@ -114,11 +114,6 @@ async function onSubmit(event) {
   await addImages();
   showNotification(totalHits);
   inputElement.value = '';
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
 }
 
 function renderImages(images) {
@@ -135,7 +130,9 @@ function renderImages(images) {
       webformatHeight,
     }) => {
       const cardMarkup = `
+      <div class="photo-card is-loading">
               <a href="${largeImageURL}">
+              
                   <img class="gallery__img" src="${webformatURL}" alt="${tags}" width="${webformatWidth}" height="${webformatHeight}" loading="lazy" />
               </a>
               <div class="info">
@@ -155,25 +152,17 @@ function renderImages(images) {
                   <i class="fa-regular fa-circle-down"></i>
                       <span>${downloads}</span>
                   </p>
+              </div>
               </div>`;
 
-      const element = document.createElement('div');
-      element.classList.add('photo-card');
-      element.classList.add('is-loading');
-
-      element.innerHTML = cardMarkup;
-      galleryElement.appendChild(element);
-
-      imagesLoaded('.gallery__img', () => {
-        element.classList.remove('is-loading');
+      galleryElement.insertAdjacentHTML('beforeend', cardMarkup);
+      imagesLoaded('.gallery', () => {
+        const card = document.querySelector('.is-loading');
+        card.classList.remove('is-loading');
         masonry.layout();
       });
     }
   );
-
-  imagesLoaded('.gallery', () => {
-    masonry.layout();
-  });
 
   const masonry = new Masonry('.gallery', {
     itemSelector: '.photo-card',
