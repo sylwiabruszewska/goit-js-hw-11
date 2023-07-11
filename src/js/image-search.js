@@ -22,8 +22,6 @@ let limit = 40;
 let totalPages;
 let totalHits;
 
-let isLoading;
-
 async function getImages() {
   try {
     const searchParams = new URLSearchParams({
@@ -63,7 +61,6 @@ async function addImages() {
     lightbox.refresh();
 
     loader.classList.add('hidden');
-    isLoading = false;
   } catch (error) {
     console.error('An error occurred while adding images:', error);
   }
@@ -122,23 +119,6 @@ async function onSubmit(event) {
     top: 0,
     behavior: 'smooth',
   });
-}
-
-async function loadMoreImages() {
-  isLoading = true;
-
-  if (checkRemainingPages() & isLoading) {
-    loader.classList.remove('hidden');
-  }
-  page += 1;
-  await addImages();
-  smoothScroll();
-}
-
-if (page === totalPages) {
-  loader.classList.add('hidden');
-  message.classList.remove('hidden');
-  return;
 }
 
 function renderImages(images) {
@@ -201,14 +181,22 @@ function renderImages(images) {
   });
 }
 
-function checkIfScrolledToBottom() {
-  let scrollPosition = window.scrollY;
-  let windowHeight = window.innerHeight;
-  let documentHeight = document.documentElement.scrollHeight;
+async function loadMoreImages() {
+  const scrollPosition = window.scrollY;
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
 
   if (scrollPosition + windowHeight >= documentHeight - 20) {
-    loadMoreImages();
+    if (checkRemainingPages()) {
+      loader.classList.remove('hidden');
+      page += 1;
+      await addImages();
+      smoothScroll();
+    } else {
+      message.classList.remove('hidden');
+    }
   }
+  return;
 }
 
-document.addEventListener('scroll', throttle(300, checkIfScrolledToBottom));
+document.addEventListener('scroll', throttle(300, loadMoreImages));
